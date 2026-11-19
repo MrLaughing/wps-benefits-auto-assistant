@@ -1,75 +1,75 @@
-# WPS Benefits Auto Assistant
+# WPS 福利自动助手
 
-A Chromium/Edge Manifest V3 extension that automates daily check-ins and benefit claims on the pages you are already signed into. It only clicks visible page controls: it does not read cookies, passwords, browsing history, or browser profile data, and it does not bypass CAPTCHA or anti-bot controls.
+这是一个用于 Edge/Chromium 浏览器的 Manifest V3 扩展，可在你已登录的页面上自动完成每日签到和福利领取。它只点击页面上可见的按钮，不读取 Cookie、密码、浏览记录或浏览器配置数据，也不会绕过验证码或反爬限制。
 
-> This project is provided for personal automation on accounts and sites you are authorized to use. Activity pages and reward rules can change at any time; the author is not responsible for lost rewards, account restrictions, or site changes.
+> 本项目仅供你有权使用的账号和网站进行个人自动化。活动页面和奖励规则可能随时变化，因奖励失效、账号限制或页面调整造成的损失，作者不承担责任。
 
-## Features
+## 功能说明
 
-- Opens the WPS task center, WPS benefits center, and `iamtxt.com` daily at 09:49.
-- Clicks the WPS task-center sign-in button and retries if the page has not finished binding its events.
-- Handles WPS benefits check-in, fragment rewards, free member trials, and the remaining daily lottery draws.
-- At 10:00, runs the limited-benefit flow:
-  - tries the 7-day member reward once;
-  - claims the WPS 1-day membership first, with five refresh retries;
-  - then claims the 2-point WPS reward, with five refresh retries;
-  - returns to the 7-day member reward for up to five more tries if it still shows “立刻领取”;
-  - never chooses the paid coupon.
-- Signs in on `iamtxt.com`, skips when logged out, and records the result in the extension log.
-- Pauses on security verification and sends a notification; it never attempts to solve a CAPTCHA.
-- Keeps seven days of local logs with full date and time.
+- 每天 09:49 自动打开 WPS 任务中心、WPS 福利中心和 `iamtxt.com`。
+- 自动点击任务中心的签到按钮；如果页面事件尚未绑定完成，会自动重试。
+- 自动处理福利中心打卡、集碎片奖励、会员免费试用和当天剩余抽奖次数。
+- 10:00 按以下顺序处理限量福利：
+  - 先尝试领取一次 7 天超级会员；
+  - 优先领取“WPS 大会员 1 天”，失败后刷新重试 5 次；
+  - 再领取“WPS 积分 2 分”，失败后刷新重试 5 次；
+  - 限量流程结束后，如果 7 天超级会员仍显示“立刻领取”，再重试 5 次；
+  - 不会自动选择付费优惠券。
+- 自动完成 `iamtxt.com` 签到；未登录时跳过并提醒，结果会记录到扩展日志。
+- 遇到安全验证时暂停并通知你手动处理，不会尝试识别或绕过验证码。
+- 本地日志保留 7 天，记录完整年月日和时分秒。
 
-## Install from source
+## 安装方法
 
-1. Download the repository ZIP and extract it to a permanent folder.
-2. Open `edge://extensions/` or `chrome://extensions/`.
-3. Enable **Developer mode**.
-4. Click **Load unpacked** and select the `extension` folder.
-5. Pin **WPS Benefits Auto Assistant** from the extension menu.
-6. Open the extension, click **打开三个页面**, and make sure both WPS sites and `iamtxt.com` show your normal logged-in state.
-7. Click **立即执行** once to verify the controls.
+1. 下载仓库压缩包并解压到一个固定文件夹。
+2. 打开 `edge://extensions/` 或 `chrome://extensions/`。
+3. 启用“开发人员模式”。
+4. 点击“加载解压缩的扩展”，选择 `extension` 文件夹。
+5. 在扩展菜单中固定“WPS 福利自动助手”。
+6. 打开扩展，点击“打开三个页面”，确认两个 WPS 页面和 `iamtxt.com` 都处于正常登录状态。
+7. 点击“立即执行”做一次手动检查。
 
-The release ZIP named `wps-benefits-auto-assistant-v1.0.8.zip` can also be used: extract it first, then load the extracted folder as an unpacked extension.
+也可以使用发布包 `wps-benefits-auto-assistant-v1.0.8.zip`：先解压，再把解压后的文件夹作为未打包扩展加载。
 
-## Optional Windows startup task
+## 可选的 Windows 开机计划任务
 
-The extension's alarm can run only while the browser is open. On Windows, the included PowerShell script can launch Edge before the daily tasks:
+扩展的定时任务只有在浏览器打开时才能运行。在 Windows 上，可以使用随附的 PowerShell 脚本在每日任务前启动 Edge：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\安装定时任务.ps1
 ```
 
-It creates a daily 09:48 task that opens the three public URLs in the default Edge profile. It does not copy or export browser data. Remove it with:
+它会创建一个每天 09:48 运行的计划任务，用默认 Edge 配置打开三个公开页面。它不会复制或导出浏览器数据。卸载方法：
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\卸载定时任务.ps1
 ```
 
-## Daily schedule
+## 每日时间安排
 
-- `09:48` — optional Windows task launches Edge.
-- `09:49` — extension opens all three pages and runs ordinary check-ins.
-- `09:59:56` — extension prepares and reloads the WPS benefits page.
-- `10:00` — limited rewards and the return visit to the 7-day member card.
+- `09:48`：可选的 Windows 计划任务启动 Edge。
+- `09:49`：扩展打开三个页面并执行普通签到。
+- `09:59:56`：扩展预加载并刷新 WPS 福利页面。
+- `10:00`：执行限量福利抢购，并再次检查 7 天超级会员。
 
-Keep the computer awake and the browser open. The WPS activity must show that you are logged in. Rewards are first come, first served, so automation cannot guarantee a successful claim.
+请保持电脑唤醒、浏览器打开，并确保 WPS 活动页处于登录状态。限量福利先到先得，自动化无法保证一定领取成功。
 
-## Privacy and permissions
+## 隐私与权限
 
-The extension requests `alarms`, `tabs`, `storage`, and `notifications`, plus host permissions for the WPS activity domain and `iamtxt.com`. These are used to open pages, exchange messages with its own content scripts, remember daily state and logs, and show notifications.
+扩展申请了 `alarms`、`tabs`、`storage` 和 `notifications` 权限，并申请了 WPS 活动域名与 `iamtxt.com` 的访问权限。这些权限仅用于打开页面、与扩展自身的内容脚本通信、保存每日状态和日志，以及显示通知。
 
-No analytics, remote configuration, external API calls, credential capture, or account identifiers are included in the source.
+源码中不包含统计、远程配置、外部接口调用、凭据采集或账号标识信息。
 
-## Troubleshooting
+## 常见问题
 
-- **Nothing happens at 10:00**: confirm the browser was open before 09:49, the extension switch is enabled, and the WPS pages remain logged in.
-- **Security verification appears**: complete it manually, then click **立即执行**.
-- **Button state says 待开奖**: the draw has not opened yet; wait for the scheduled 10:00 run.
-- **A site says 活动太火爆了**: the automated retries were not enough; check the page manually.
-- **Extension stops after an update**: in `edge://extensions/`, click **重新加载**, then refresh the activity pages.
+- **10:00 没有动作**：确认 09:49 前浏览器已打开、扩展开关已启用，并且 WPS 页面仍处于登录状态。
+- **出现安全验证**：手动完成验证，然后点击“立即执行”。
+- **按钮显示“待开奖”**：说明本轮尚未开奖，等待 10:00 的定时任务即可。
+- **页面提示“活动太火爆了”**：说明自动重试仍未抢到，请到页面手动确认。
+- **更新后扩展停止工作**：在 `edge://extensions/` 中点击“重新加载”，再刷新活动页面。
 
-## Repository layout
+## 仓库结构
 
-- `extension/` — unpacked Chromium/Edge extension source.
-- `releases/` — release ZIP for version 1.0.8.
-- `README.md` — this document.
+- `extension/`：可直接加载到 Edge/Chromium 的扩展源码。
+- `releases/`：1.0.8 版本发布压缩包。
+- `README.md`：本说明文件。
