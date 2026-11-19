@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WPS 福利自动助手</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <div class="hero-mark">W</div>
+        <div>
+          <p class="eyebrow">DAILY BENEFITS</p>
+          <h1>福利自动助手</h1>
+        </div>
+        <label class="switch" title="启用或暂停自动任务">
+          <input id="enabled" type="checkbox" />
+          <span></span>
+        </label>
+      </header>
+
+      <section class="timeline">
+        <div class="time-row">
+          <span>09:49</span>
+          <p>打开任务中心、福利中心与 iamtxt，完成普通签到。</p>
+        </div>
+        <div class="time-row is-hot">
+          <span>09:59</span>
+          <p>10:00 先试 7 天会员卡 1 次，再抢大会员和积分；限量爆款结束后重试 7 天会员卡 5 次。</p>
+        </div>
+      </section>
+
+      <section class="actions">
+        <button id="run-now" class="primary" type="button">立即执行</button>
+        <button id="open-pages" class="secondary" type="button">打开三个页面</button>
+      </section>
+
+      <section class="notice">
+        <strong>安全验证不绕过</strong>
+        <p>若阿里云滑块出现，任务会暂停并通知你手动完成。</p>
+        <p>iamtxt 未登录时会跳过签到并提醒，不会读取或填写账号密码。</p>
+      </section>
+
+      <section class="log-section">
+        <div class="log-head">
+          <h2>最近记录 · 7 天</h2>
+          <button id="refresh" type="button">刷新</button>
+        </div>
+        <div id="logs" class="logs">加载中...</div>
+      </section>
+
+      <footer id="schedule">正在读取定时状态...</footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

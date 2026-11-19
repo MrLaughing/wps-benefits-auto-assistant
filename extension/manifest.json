@@ -1,0 +1,61 @@
+{
+  "manifest_version": 3,
+  "name": "WPS 福利自动助手",
+  "version": "1.0.8",
+  "description": "WPS 每日福利与 iamtxt 每日签到自动执行；遇到登录或安全验证时提醒。",
+  "permissions": [
+    "alarms",
+    "tabs",
+    "storage",
+    "notifications"
+  ],
+  "host_permissions": [
+    "https://personal-act.wps.cn/*",
+    "https://www.iamtxt.com/*",
+    "https://iamtxt.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "WPS 福利自动助手",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://personal-act.wps.cn/rubik2/portal/HD2025031821201822/*",
+        "https://personal-act.wps.cn/rubik2/portal/HD2025031721339450/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "overlay.css"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.iamtxt.com/*",
+        "https://iamtxt.com/*"
+      ],
+      "js": [
+        "iamtxt.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
